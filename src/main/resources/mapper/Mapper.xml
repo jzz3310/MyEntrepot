@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.mapper.UserMapper">
+	<select id="query" parameterType="com.bw.bean.Goods" resultType="com.bw.bean.Goods">
+		select * from (select g.*,b.b_name,t.t_name from goods g,goods_brand b,goods_type t where g.b_id=b.b_id and g.t_id=t.t_id ORDER BY g_id)t
+		<where>
+			<if test="t_id!=null and t_id!=0">and t_id=#{t_id}</if>
+			<if test="b_id!=null and b_id!=0">and b_id=#{b_id}</if>
+			<if test="start!=null">and g_price &gt;=#{start}</if>
+			<if test="end!=null">and g_price &lt;=#{end}</if>
+			<if test="g_name!=null and g_name!=''">and g_name like '%${g_name}%'</if>
+			<if test="g_nick!=null and g_nick!=''">and g_nick like '%${g_nick}%'</if>
+			<if test="g_label!=null and g_label!=''">and g_label like '%${g_label}%'</if>
+		</where>
+	</select>
+	
+	<select id="selType" resultType="com.bw.bean.Type">
+		select * from goods_type
+	</select>
+	
+	<select id="selBrand" resultType="com.bw.bean.Brand">
+		select * from goods_brand
+	</select>
+	
+	<insert id="addGoods">
+		insert into goods values (0,#{g_name},#{g_nick},#{t_id},#{b_id},#{g_size},#{g_price},#{g_num},#{g_label},#{g_imgurl})
+	</insert>
+	
+	<delete id="delOne" parameterType="int">
+		delete from goods where g_id=#{id}
+	</delete>
+	
+	<delete id="delAll">
+		delete from goods where g_id in (#{id})
+	</delete>
+	
+	<select id="selOne" parameterType="int" resultType="com.bw.bean.Goods">
+		select * from goods where g_id=#{id}
+	</select>
+	
+	<update id="up" parameterType="com.bw.bean.Goods">
+		update goods set g_name=#{g_name},g_nick=#{g_nick},t_id=#{t_id},b_id=#{b_id},g_size=#{g_size},g_price=#{g_price},g_label=#{g_label},g_imgurl=#{g_imgurl}
+		where g_id=#{g_id}
+	</update>
+</mapper>
