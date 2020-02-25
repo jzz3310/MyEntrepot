@@ -7,6 +7,7 @@ public class Brand implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Integer b_id;
 	private String b_name;
 	public Integer getB_id() {
