@@ -15,6 +15,7 @@ public class Brand implements Serializable{
 	}
 	public void setB_id(Integer b_id) {
 		this.b_id = b_id;
+		
 	}
 	public String getB_name() {
 		return b_name;
